@@ -1,58 +1,71 @@
 part of 'timer_bloc.dart';
 
-@immutable
-sealed class TimerEvent {
+sealed class TimerEvent extends Equatable {
   const TimerEvent();
 
+  @override
   List<Object> get props => [];
 }
 
-class TimerStarted extends TimerEvent {
-  final int timerId;
-  final TimerModel timer;
+final class LoadTimers extends TimerEvent {
+  final List<TimerModel> timers;
 
-  const TimerStarted({required this.timerId, required this.timer});
+  const LoadTimers({this.timers = const <TimerModel>[]});
 
   @override
-  List<Object> get props => [timer];
+  List<Object> get props => [timers];
+}
+
+final class TimerCreated extends TimerEvent {
+  final TimerModel timer;
+
+  const TimerCreated({required this.timer});
+
+  @override
+  List<Object> get props => [Timer];
+}
+
+class TimerStarted extends TimerEvent {
+  final int index;
+
+  const TimerStarted({required this.index});
+
+  @override
+  List<Object> get props => [index];
 }
 
 class TimerStopped extends TimerEvent {
-  final int timerId;
-  final TimerModel timer;
+  final int index;
 
-  const TimerStopped({required this.timerId, required this.timer});
+  const TimerStopped({required this.index});
 
   @override
-  List<Object> get props => [timerId];
+  List<Object> get props => [];
 }
 
 class TimerPaused extends TimerEvent {
-  final int timerId;
-  final TimerModel timer;
+  final int index;
 
-  const TimerPaused({required this.timerId, required this.timer});
+  const TimerPaused({required this.index});
 
   @override
-  List<Object> get props => [timerId];
+  List<Object> get props => [];
 }
 
-class TimerResumed extends TimerEvent {
-  final int timerId;
-  final TimerModel timer;
+class TimerRemoved extends TimerEvent {
+  final int index;
 
-  const TimerResumed({required this.timerId, required this.timer});
+  const TimerRemoved({required this.index});
 
   @override
-  List<Object> get props => [timerId];
+  List<Object> get props => [];
 }
 
 class _TimerTicked extends TimerEvent {
-  final int timerId;
+  final int index;
   final TimerModel timer;
-
-  const _TimerTicked({required this.timerId, required this.timer});
+  const _TimerTicked({required this.index, required this.timer});
 
   @override
-  List<Object> get props => [timerId];
+  List<Object> get props => [];
 }

@@ -1,46 +1,28 @@
 part of 'timer_bloc.dart';
 
-@immutable
 sealed class TimerState extends Equatable {
-  final int timerId;
   final List<TimerModel> timers;
 
-  const TimerState({required this.timerId, required this.timers});
+  const TimerState({required this.timers});
 
   @override
-  List<Object?> get props => [timers, timerId];
+  List<Object> get props => [];
 }
 
-class TimerInitial extends TimerState {
-  const TimerInitial({required int timerId})
-      : super(timers: const [], timerId: timerId);
+final class TimerLoading extends TimerState {
+  const TimerLoading({required List<TimerModel> timers})
+      : super(timers: timers);
+
+  @override
+  List<Object> get props => [timers];
 }
 
-class TimerStart extends TimerState {
-  const TimerStart({required int timerId, required List<TimerModel> timers})
-      : super(timers: timers, timerId: timerId);
-}
+final class TimerLoaded extends TimerState {
+  @override
+  final List<TimerModel> timers;
 
-class TimerRunInProgress extends TimerState {
-  final TimerModel timer;
+  const TimerLoaded({required this.timers}) : super(timers: timers);
 
-  TimerRunInProgress({required this.timer, required int timerId})
-      : super(timers: [timer], timerId: timerId);
-}
-
-class TimerPause extends TimerState {
-  final TimerModel timer;
-  TimerPause({required this.timer, required int timerId})
-      : super(timers: [timer], timerId: timerId);
-}
-
-class TimerResume extends TimerState {
-  final TimerModel timer;
-  TimerResume({required this.timer, required int timerId})
-      : super(timers: [timer], timerId: timerId);
-}
-
-class TimerStop extends TimerState {
-  const TimerStop({required int timerId, required List<TimerModel> timers})
-      : super(timers: timers, timerId: timerId);
+  @override
+  List<Object> get props => [timers];
 }
