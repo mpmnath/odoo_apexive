@@ -37,8 +37,8 @@ class TimerButton extends StatelessWidget {
             ),
             style: IconButton.styleFrom(
               backgroundColor: timer.isFavorite
-                  ? theme.colorScheme.primary
-                  : theme.colorScheme.secondary,
+                  ? theme.colorScheme.primaryContainer
+                  : theme.colorScheme.secondaryContainer,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(64.0),
               ),
@@ -52,8 +52,8 @@ class TimerButton extends StatelessWidget {
                     formatDurationToMS(timer.elapsedTime),
                     style: theme.textTheme.labelLarge!.copyWith(
                       color: timer.isFavorite
-                          ? theme.colorScheme.onPrimary
-                          : theme.colorScheme.onSecondary,
+                          ? theme.colorScheme.onPrimaryContainer
+                          : theme.colorScheme.onSecondaryContainer,
                     ),
                   ),
                 ),
@@ -63,8 +63,8 @@ class TimerButton extends StatelessWidget {
                     timer.isRunning ? Icons.pause : Icons.play_arrow,
                     size: 32,
                     color: timer.isFavorite
-                        ? theme.colorScheme.onPrimary
-                        : theme.colorScheme.onSecondary,
+                        ? theme.colorScheme.onPrimaryContainer
+                        : theme.colorScheme.onSecondaryContainer,
                   ),
                 ),
               ],
