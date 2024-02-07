@@ -58,8 +58,7 @@ class AppTheme {
         outlineVariant: ColorPalette.darkOutlinevariant,
         background: ColorPalette.darkBackground,
         onBackground: ColorPalette.darkOnBackground,
-        surface: ColorPalette
-            .darkSurface.colors[0], // Adjust according to your needs
+        surface: ColorPalette.darkSurface.colors[0],
         onSurface: ColorPalette.darkOnSurface,
         surfaceVariant: ColorPalette.darkSurfaceVariant,
         onSurfaceVariant: ColorPalette.darkOnSurfaceVariant,
