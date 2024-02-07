@@ -17,17 +17,19 @@ class TimesheetTimerCard extends StatefulWidget {
 class _TimesheetTimerCardState extends State<TimesheetTimerCard> {
   bool isExpanded = false;
   bool _isEditDescription = false;
-
+  final _descriptionTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return BlocBuilder<TimerBloc, TimerState>(
       builder: (context, state) {
         final timer = state.timers[widget.index];
+        if (_descriptionTextController.text == "") {
+          _descriptionTextController.text = timer.description;
+        }
         return Container(
           width: double.infinity,
           //height: 100,
-          margin: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
             color: theme.colorScheme.secondary,
             borderRadius: BorderRadius.circular(16.0),
@@ -155,6 +157,7 @@ class _TimesheetTimerCardState extends State<TimesheetTimerCard> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 8.0),
                                     child: TextField(
+                                      controller: _descriptionTextController,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(
                                           borderRadius:
@@ -170,6 +173,14 @@ class _TimesheetTimerCardState extends State<TimesheetTimerCard> {
                                               _isEditDescription =
                                                   !_isEditDescription;
                                             });
+                                            context.read<TimerBloc>().add(
+                                                  TimerUpdateDescription(
+                                                    index: widget.index,
+                                                    description:
+                                                        _descriptionTextController
+                                                            .text,
+                                                  ),
+                                                );
                                           },
                                           icon: const Icon(
                                             Icons.check,
