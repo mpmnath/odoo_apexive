@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:odoo_apexive/bloc/new_timer/new_timer_bloc.dart';
 import 'package:odoo_apexive/bloc/timer/timer_bloc.dart';
-import 'package:odoo_apexive/models/timer_model.dart';
 import 'package:odoo_apexive/theme/palette.dart';
-import 'package:odoo_apexive/view/widgets/details/details_description_card.dart';
-import 'package:odoo_apexive/view/widgets/details/details_project_card.dart';
-import 'package:odoo_apexive/view/widgets/timer/timesheet_timer_card.dart';
+import 'package:odoo_apexive/view/widgets/task/details/details_description_card.dart';
+import 'package:odoo_apexive/view/widgets/task/details/details_project_card.dart';
+import 'package:odoo_apexive/view/widgets/task/timesheet/timesheet_timer_card.dart';
 
 class TaskScreen extends StatefulWidget {
   final int index;
@@ -37,37 +35,45 @@ class _TaskScreenState extends State<TaskScreen> with TickerProviderStateMixin {
     return Scaffold(
       backgroundColor: theme.colorScheme.background,
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 8.0,
-            horizontal: 16.0,
-          ),
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: BlocBuilder<TimerBloc, TimerState>(
+          builder: (context, state) {
+            return AppBar(
+              centerTitle: true,
+              leading: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 16.0,
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+              title: Text(
+                state.timers[widget.index].task.name,
+                style: theme.textTheme.titleMedium,
+              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 16.0,
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {},
+                  ),
+                ),
+              ],
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            );
+          },
         ),
-        title: Text(
-          context.read<NewTimerBloc>().state.timers[widget.index].task.name,
-          style: theme.textTheme.headlineSmall,
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 8.0,
-              horizontal: 16.0,
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () {},
-            ),
-          ),
-        ],
-        backgroundColor: Colors.transparent,
-        elevation: 0,
       ),
       body: Container(
         width: double.infinity,
@@ -100,18 +106,18 @@ class _TaskScreenState extends State<TaskScreen> with TickerProviderStateMixin {
                     controller: _tabController,
                     children: [
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TimesheetTimerCard(
                             index: widget.index,
                           ),
                         ],
                       ),
-                      const Column(
+                      Column(
                         children: [
-                          DetailsProjectCard(),
+                          const DetailsProjectCard(),
                           DetailsDescriptionCard(
-                            description:
-                                'Sync with Client, communicate, work on the new design with designer, new tasks preparation call with the front end',
+                            index: widget.index,
                           ),
                         ],
                       ),
