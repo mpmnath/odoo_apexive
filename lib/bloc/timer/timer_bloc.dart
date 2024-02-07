@@ -21,6 +21,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     on<TimerStopped>(_onStopped);
     on<TimerPaused>(_onPaused);
     on<TimerRemoved>(_onRemoved);
+    on<TimerUpdateDescription>(_onUpdateDescription);
     on<_TimerTicked>(_onTicked);
   }
 
@@ -36,36 +37,32 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
 
   void _onStarted(TimerStarted event, Emitter<TimerState> emit) {
     final updatedTimers = List<TimerModel>.from(state.timers);
-    final timer = updatedTimers[event.index];
+    TimerModel timer = updatedTimers[event.index];
 
     // Check if the timer is not already running
     if (!timer.isRunning) {
-      updatedTimers[event.index] = timer.copyWith(isRunning: true);
+      timer = timer.copyWith(isRunning: true);
 
-      // Emit the state to reflect that the timer is running
-      emit(TimerLoaded(timers: updatedTimers));
-
-      // Check if there's an existing subscription for this timer
-      if (_tickerSubscription != null) {
-        // Cancel the existing subscription only if it's associated with the timer being started
-        if (_tickerSubscription!.isPaused) {
-          _tickerSubscription?.cancel();
-        }
+      // Cancel the existing subscription only if it's associated with the timer being started
+      if (_tickerSubscription != null && !_tickerSubscription!.isPaused) {
+        _tickerSubscription?.cancel();
       }
 
-      // Create a  ticker subscription for the timer
+      // Create a ticker subscription for the timer
       _tickerSubscription =
           _ticker.tick(ticks: timer.elapsedTime.inSeconds).listen(
                 (duration) => add(
                   _TimerTicked(
                     index: event.index,
                     timer: timer.copyWith(
-                      isRunning: true,
                       elapsedTime: Duration(seconds: duration),
                     ),
                   ),
                 ),
               );
+
+      // Emit the state to reflect that the timer is running
+      emit(TimerLoaded(timers: updatedTimers));
     }
   }
 
@@ -85,13 +82,23 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     final updatedTimers = List<TimerModel>.from(state.timers);
     final timer = updatedTimers[event.index];
     updatedTimers[event.index] = timer.copyWith(isRunning: false);
-    _tickerSubscription?.pause();
+    if (_tickerSubscription != null) {
+      _tickerSubscription?.pause();
+    }
     emit(TimerLoaded(timers: updatedTimers));
   }
 
   void _onRemoved(TimerRemoved event, Emitter<TimerState> emit) {
     final updatedTimers = List<TimerModel>.from(state.timers);
     updatedTimers.removeAt(event.index);
+    emit(TimerLoaded(timers: updatedTimers));
+  }
+
+  void _onUpdateDescription(
+      TimerUpdateDescription event, Emitter<TimerState> emit) {
+    final updatedTimers = List<TimerModel>.from(state.timers);
+    final timer = updatedTimers[event.index];
+    updatedTimers[event.index] = timer.copyWith(description: event.description);
     emit(TimerLoaded(timers: updatedTimers));
   }
 
