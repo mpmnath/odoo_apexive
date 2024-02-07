@@ -14,15 +14,13 @@ class CustomIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return IconButton(
       onPressed: onPressed,
-      style: ButtonStyle(
-        backgroundColor:
-            MaterialStateProperty.all(Theme.of(context).colorScheme.secondary),
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
+      style: IconButton.styleFrom(
+        backgroundColor: theme.colorScheme.secondary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
         ),
       ),
       iconSize: iconSize,
