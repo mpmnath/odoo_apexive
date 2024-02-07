@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:odoo_apexive/bloc/new_timer/new_timer_bloc.dart';
+import 'package:odoo_apexive/bloc/timer/timer_bloc.dart';
 import 'package:odoo_apexive/theme/palette.dart';
-import 'package:odoo_apexive/view/widgets/custom_icon_button.dart';
+import 'package:odoo_apexive/view/widgets/common/custom_icon_button.dart';
 import 'package:odoo_apexive/view/widgets/timer/timer_widget.dart';
 
 class TimeScreen extends StatelessWidget {
@@ -12,7 +12,7 @@ class TimeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return BlocBuilder<NewTimerBloc, NewTimerState>(
+    return BlocBuilder<TimerBloc, TimerState>(
       builder: (context, state) {
         return Scaffold(
           backgroundColor: theme.colorScheme.background,
@@ -57,12 +57,9 @@ class TimeScreen extends StatelessWidget {
                       itemCount: state.timers.length,
                       shrinkWrap: true,
                       itemBuilder: (listViewContext, index) {
-                        //final TimerModel timer = state.timers[index];
-                        //print("Timer: ${timer.id}");
-                        print('Timers Length: ${state.timers.length}');
+                        int reversedIndex = state.timers.length - index - 1;
                         return TimerWidget(
-                          index: index,
-                          timer: state.timers[index],
+                          index: reversedIndex,
                         );
                       },
                     ),
@@ -76,16 +73,3 @@ class TimeScreen extends StatelessWidget {
     );
   }
 }
-
-/*
-BlocProvider<TimerBloc>(
-  create: (context) => TimerBloc(
-    ticker: const Ticker(),
-    timerId: timer.id,
-  ),
-  child: TimerWidget(
-    timerId: state.timers[index].id,
-    timer: timer,
-  ),
-);
- */
