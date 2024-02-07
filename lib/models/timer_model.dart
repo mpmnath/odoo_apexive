@@ -6,6 +6,7 @@ class TimerModel {
   final String description;
   final bool isFavorite;
   bool isRunning;
+  bool isStopped;
   Duration elapsedTime;
   DateTime startTime;
   final ProjectModel project;
@@ -16,6 +17,7 @@ class TimerModel {
     required this.description,
     required this.isFavorite,
     required this.isRunning,
+    required this.isStopped,
     required this.elapsedTime,
     required this.startTime,
     required this.project,
@@ -27,6 +29,7 @@ class TimerModel {
     String? description,
     bool? isFavorite,
     bool? isRunning,
+    bool? isStopped,
     DateTime? startTime,
     DateTime? endTime,
     Duration? elapsedTime,
@@ -38,6 +41,7 @@ class TimerModel {
       description: description ?? this.description,
       isFavorite: isFavorite ?? this.isFavorite,
       isRunning: isRunning ?? this.isRunning,
+      isStopped: isStopped ?? this.isStopped,
       elapsedTime: elapsedTime ?? this.elapsedTime,
       startTime: startTime ?? this.startTime,
       project: project ?? this.project,
