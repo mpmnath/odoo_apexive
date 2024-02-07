@@ -17,14 +17,16 @@ class TimerCard extends StatelessWidget {
     final theme = Theme.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(
-          icon,
-          size: 16,
-          color: theme.colorScheme.onSurface,
+        Padding(
+          padding: const EdgeInsets.only(top: 2.0, right: 8.0),
+          child: Icon(
+            icon,
+            size: 16,
+            color: theme.colorScheme.onSurface,
+          ),
         ),
-        const SizedBox(width: 8.0),
         Expanded(
           child: Text(
             title,
