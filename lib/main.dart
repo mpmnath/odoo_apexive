@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:odoo_apexive/bloc/new_timer/new_timer_bloc.dart';
+import 'package:odoo_apexive/bloc/timer/timer_bloc.dart';
+import 'package:odoo_apexive/utils/ticker.dart';
 import 'package:odoo_apexive/routes/routes.dart';
 import 'package:odoo_apexive/theme/theme_data.dart';
 import 'package:odoo_apexive/view/screens/timer_screen.dart';
@@ -20,8 +21,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<NewTimerBloc>(
-      create: (context) => NewTimerBloc(tickers: []),
+    return BlocProvider<TimerBloc>(
+      create: (context) => TimerBloc(ticker: const Ticker()),
       child: MaterialApp(
         title: 'Odoo Apexive',
         theme: AppTheme.lightTheme(),
