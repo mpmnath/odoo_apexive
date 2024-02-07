@@ -61,6 +61,17 @@ class TimerRemoved extends TimerEvent {
   List<Object> get props => [];
 }
 
+class TimerUpdateDescription extends TimerEvent {
+  final int index;
+  final String description;
+
+  const TimerUpdateDescription(
+      {required this.index, required this.description});
+
+  @override
+  List<Object> get props => [index, description];
+}
+
 class _TimerTicked extends TimerEvent {
   final int index;
   final TimerModel timer;
