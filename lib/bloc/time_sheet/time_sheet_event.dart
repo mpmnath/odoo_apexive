@@ -24,3 +24,31 @@ final class CreateTimer extends TimeSheetEvent {
   @override
   List<Object> get props => [newTimer];
 }
+
+class StartTimer extends TimeSheetEvent {
+  final int index;
+  final Duration duration;
+
+  const StartTimer({
+    required this.index,
+    required this.duration,
+  });
+}
+
+class PauseTimer extends TimeSheetEvent {
+  final int index;
+
+  const PauseTimer(this.index);
+}
+
+class ResetTimer extends TimeSheetEvent {
+  final int index;
+
+  const ResetTimer(this.index);
+}
+
+class UpdateTimers extends TimeSheetEvent {
+  final List<TimerModel> timers;
+
+  const UpdateTimers(this.timers);
+}
