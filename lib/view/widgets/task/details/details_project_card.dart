@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:odoo_apexive/utils/utils.dart';
-import 'package:odoo_apexive/view/widgets/custom_text_details.dart';
+import 'package:odoo_apexive/view/widgets/common/custom_text_details.dart';
 
 class DetailsProjectCard extends StatelessWidget {
   const DetailsProjectCard({super.key});
@@ -26,7 +26,7 @@ class DetailsProjectCard extends StatelessWidget {
           const SizedBox(height: 16.0),
           CustomTextDetails(
             title: 'Deadline',
-            subTitle: DateTime.now().formattedDate,
+            subTitle: DateTime.now().formattedDateSlash,
           ),
           const SizedBox(height: 16.0),
           const CustomTextDetails(
